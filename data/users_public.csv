@@ -1,8 +1,3 @@
-username,password
-admin,admin123
-test,test123
-josh234,8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
-jonny29,888df25ae35772424a560c7152a1de794440e0ea5cfee62828333a456a506e05
-yash002,0987
-tanvir90,03398
-ramesh90,9870
+fullname,email,password,cpass
+admin,admin@yahoo.com,9999,9999
+Pradip Gosh,,12345,12345
