@@ -9,16 +9,21 @@ os.makedirs("data", exist_ok=True)
 conn = sqlite3.connect(DB_PATH)
 c = conn.cursor()
 
+# Drop the old table
+c.execute("DROP TABLE IF EXISTS users")
+
 c.execute('''
 CREATE TABLE IF NOT EXISTS users (
-    username TEXT PRIMARY KEY,
-    password TEXT NOT NULL
+    fullname TEXT NOT NULL,
+    email TEXT PRIMARY KEY,
+    password TEXT NOT NULL,
+    cpass TEXT NOT NULL
 )
 ''')
 
 # Insert sample users
-c.execute("INSERT OR IGNORE INTO users (username, password) VALUES (?, ?)", ("admin", "admin123"))
-c.execute("INSERT OR IGNORE INTO users (username, password) VALUES (?, ?)", ("test", "test123"))
+# c.execute("INSERT OR IGNORE INTO users (fullname, password) VALUES (?, ?)", ("admin", "admin123"))
+# c.execute("INSERT OR IGNORE INTO users (username, password) VALUES (?, ?)", ("test", "test123"))
 
 conn.commit()
 conn.close()

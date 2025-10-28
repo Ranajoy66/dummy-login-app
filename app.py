@@ -15,11 +15,11 @@ st.title("🔐 Global Login App (with GitHub Synced DB)")
 menu = ["Login", "Sign Up"]
 choice = st.sidebar.selectbox("Menu", menu)
 
-def login_user(username, password):
+def login_user(email, password):
     import sqlite3
     conn = sqlite3.connect('data/users.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
+    c.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
     data = c.fetchone()
     conn.close()
     return data
@@ -30,29 +30,34 @@ if "logged_in" not in st.session_state:
 
 if choice == "Login":
     st.subheader("Login Section")
-    username = st.text_input("Username",key="login_username")
+    email = st.text_input("Username",key="login_email")
     password = st.text_input("Password", type='password',key="login_password")
     if st.button("Login"):
-        user = login_user(username, password)
+        user = login_user(email, password)
         if user:
-            st.success(f"Welcome {username}!")
+            st.success(f"Welcome {email}!")
             st.session_state.logged_in = True
-            st.session_state.username = username
+            st.session_state.email = email
         else:
             st.error("Invalid username or password.")
 
 elif choice == "Sign Up":
     st.subheader("Create New Account")
-    new_user = st.text_input("Username")
-    new_pass = st.text_input("Password", type='password')
+    fullname=st.text_input("Full Name")
+    email=st.text_input("Email")
+    password = st.text_input("Password", type='password')
+    cpass = st.text_input("Confirm Password", type='password')
     token = st.secrets["GITHUB_TOKEN"]
 
     if st.button("Sign Up"):
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         try:
-            c.execute('INSERT INTO users (username, password) VALUES (?, ?)',
-                      (new_user, new_pass))
+            c.execute(
+                'INSERT INTO users (fullname, email, password, cpass) VALUES (?, ?, ?, ?)',
+                (fullname, email, password, cpass)
+            )
+
             conn.commit()
             st.success("🎉 Account created successfully!")
             st.info("You can now log in.")
@@ -65,7 +70,7 @@ elif choice == "Sign Up":
 if st.session_state.logged_in:
     st.success(f"✅ You are logged in as {st.session_state.username}")
     if st.button("Logout"):
-        for key in ["logged_in", "user", "login_username", "login_password"]:
+        for key in ["logged_in", "user", "login_email", "login_password"]:
             if key in st.session_state:
                 del st.session_state[key]
         st.rerun()
