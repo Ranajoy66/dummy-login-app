@@ -28,13 +28,13 @@ def export_public_csv():
     os.makedirs("data", exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     try:
-        df = pd.read_sql_query("SELECT username, password FROM users", conn)
+        df = pd.read_sql_query("SELECT fullname, email, password, cpass FROM users", conn)
     finally:
         conn.close()
 
     # Save to CSV with clear table structure
     df.to_csv(PUBLIC_CSV_PATH, index=False)
-    print("✅ Exported users_public.csv with usernames and passwords")
+    print("✅ Exported users_public.csv")
 
 
 # ===== GitHub Sync =====

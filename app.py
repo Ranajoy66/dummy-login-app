@@ -30,8 +30,8 @@ if "logged_in" not in st.session_state:
 
 if choice == "Login":
     st.subheader("Login Section")
-    email = st.text_input("Username",key="login_email")
-    password = st.text_input("Password", type='password',key="login_password")
+    email = st.text_input("Email", key="login_email")
+    password = st.text_input("Password", type='password', key="login_password")
     if st.button("Login"):
         user = login_user(email, password)
         if user:
@@ -68,7 +68,7 @@ elif choice == "Sign Up":
         conn.close()
 
 if st.session_state.logged_in:
-    st.success(f"✅ You are logged in as {st.session_state.username}")
+    st.success(f"✅ You are logged in as {st.session_state.email}")
     if st.button("Logout"):
         for key in ["logged_in", "user", "login_email", "login_password"]:
             if key in st.session_state:

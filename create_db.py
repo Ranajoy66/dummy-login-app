@@ -10,7 +10,7 @@ conn = sqlite3.connect(DB_PATH)
 c = conn.cursor()
 
 # Drop the old table
-c.execute("DROP TABLE IF EXISTS users")
+# c.execute("DROP TABLE IF EXISTS users")
 
 c.execute('''
 CREATE TABLE IF NOT EXISTS users (
@@ -21,9 +21,10 @@ CREATE TABLE IF NOT EXISTS users (
 )
 ''')
 
+# c.execute("DELETE FROM users WHERE fullname = ?", ("Pradip Gosh",))
+
 # Insert sample users
-# c.execute("INSERT OR IGNORE INTO users (fullname, password) VALUES (?, ?)", ("admin", "admin123"))
-# c.execute("INSERT OR IGNORE INTO users (username, password) VALUES (?, ?)", ("test", "test123"))
+c.execute("INSERT OR IGNORE INTO users (fullname, email, password, cpass) VALUES (?, ?, ?, ?)", ("admin", "admin@yahoo.com", "9999", "9999"))
 
 conn.commit()
 conn.close()
